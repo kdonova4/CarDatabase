@@ -1,0 +1,32 @@
+# Maven build directory
+/target/
+
+# Gradle build directory
+/build/
+/.gradle/
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.project
+.classpath
+.settings/
+bin/
+
+# VS Code
+.vscode/
+
+# Logs
+*.log
+
+# OS specific
+.DS_Store
+Thumbs.db
+
+# Environment / secret files
+*.env
