@@ -27,9 +27,7 @@ public class CardatabaseApplication implements CommandLineRunner {
 
 
     public static void main(String[] args) {
-		// added comment
-		// added comment
-		// added another comment
+
 		SpringApplication.run(CardatabaseApplication.class, args);
 
 		logger.info("APPLICATION STARTED");
