@@ -1,9 +1,6 @@
 package com.packt.cardatabase;
 
-import com.packt.cardatabase.domain.Car;
-import com.packt.cardatabase.domain.CarRepository;
-import com.packt.cardatabase.domain.Owner;
-import com.packt.cardatabase.domain.OwnerRepository;
+import com.packt.cardatabase.domain.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -19,10 +16,12 @@ public class CardatabaseApplication implements CommandLineRunner {
 
 	private final CarRepository carRepository;
 	private final OwnerRepository ownerRepository;
+	private final AppUserRepository appUserRepository;
 
-    public CardatabaseApplication(CarRepository carRepository, OwnerRepository ownerRepository) {
+    public CardatabaseApplication(CarRepository carRepository, OwnerRepository ownerRepository, AppUserRepository appUserRepository) {
         this.carRepository = carRepository;
         this.ownerRepository = ownerRepository;
+        this.appUserRepository = appUserRepository;
     }
 
 
@@ -35,6 +34,11 @@ public class CardatabaseApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) throws Exception {
+		appUserRepository.save(new AppUser("MidwayMonster2223", "$2y$10$jOlhxYYucMXOHguWN817c.mqaFy2GdAv0lQu1w.eCsAuK.UFX09z2", "USER"));
+		appUserRepository.save(new AppUser("admin202", "$2y$10$zbaUcxICEq067Hoil.xtlO7Qp.JiGY/0.VKkrWPjjACxV3m4kN1lG", "ADMIN"));
+		appUserRepository.save(new AppUser("kevin123", "$2y$10$jOlhxYYucMXOHguWN817c.mqaFy2GdAv0lQu1w.eCsAuK.UFX09z2", "USER"));
+		appUserRepository.save(new AppUser("DONOSUAR2223", "$2y$10$23eJMu3m.Y781Ikblz2FJOTWDH3DnwiG7ldQclHaw6CW3WcK6mWLK", "USER"));
+
 		Owner owner1 = new Owner("Kevin", "Donovan");
 		Owner owner2 = new Owner("Michael", "Jordan");
 		ownerRepository.saveAll(Arrays.asList(owner1, owner2));
