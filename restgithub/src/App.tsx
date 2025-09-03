@@ -2,6 +2,15 @@
 import { useState } from 'react'
 import './App.css'
 import axios from 'axios';
+import { AgGridReact } from 'ag-grid-react'
+import 'ag-grid-community/styles/ag-theme-material.css'
+import type { ColDef } from 'ag-grid-community';
+// Import AG Grid module system and the modules you want
+import { ModuleRegistry, AllCommunityModule } from 'ag-grid-community';
+import  type { ICellRendererParams } from 'ag-grid-community';
+
+// Register the modules you want to use (AllCommunityModules includes everything in Community edition)
+ModuleRegistry.registerModules([ AllCommunityModule ]);
 
 type Repository = {
   id: number;
@@ -12,6 +21,22 @@ type Repository = {
 function App() {
   const [keyword, setKeyword] = useState('');
   const [repodata, setRepoData] = useState<Repository[]>([])
+
+  const [columnDefs] = useState<ColDef[]>([
+    {field: 'id', sortable: true, filter: true},
+    {field: 'full_name', sortable: true, filter: true},
+    {field: 'html_url', sortable: true, filter: true},
+    {
+      headerName: 'Actions',
+      field: 'full_name',
+      cellRenderer: (params: ICellRendererParams) => (
+        <button
+          onClick={() => alert(params.value)}>
+          Press Me
+        </button>
+      ),
+    }
+  ])
 
   const handleClick = () => {
     axios.get<{ items: Repository[] }> (`https://api.github.com/search/repositories?q=${keyword}`)
@@ -27,23 +52,13 @@ function App() {
       />
       <button onClick={handleClick}>Fetch</button>
 
-      {repodata.length === 0 ? (
-        <p>No data available</p>
-      ) : (
-        <table>
-          <tbody>
-            {repodata.map(repo => (
-              <tr key={repo.id}>
-                <td>{repo.full_name}</td>
-                <td>
-                  <a href={repo.html_url}>{repo.html_url}</a>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      )}
-    </>
+      <div className="ag-theme-material" style={{height: 500, width: 850}}>
+        <AgGridReact 
+          rowData={repodata}
+          columnDefs={columnDefs}  pagination={true} paginationPageSize={20}
+        />
+      </div>    
+  </>
   )
 }
 
