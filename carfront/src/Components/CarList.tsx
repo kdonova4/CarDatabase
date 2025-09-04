@@ -2,9 +2,9 @@ import axios from "axios";
 import { CarResponse } from "../types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteCar, getCars } from "../api/CarAPI";
-import { DataGrid, GridCellParams, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridCellParams, GridColDef, GridDeleteIcon } from "@mui/x-data-grid";
 import { useState } from "react";
-import { Button, Snackbar } from "@mui/material";
+import { Button, IconButton, Snackbar, Tooltip } from "@mui/material";
 import AddCar from "./AddCar";
 import EditCar from "./EditCar";
 
@@ -56,11 +56,12 @@ function CarList() {
             filterable: false,
             disableColumnMenu: true,
             renderCell: (params: GridCellParams) => (
-                <Button onClick={() => {
+                <Tooltip title="Delete Car"><IconButton aria-label="edit" size="small" onClick={() => {
                     if(window.confirm(`Are you sure you want to delete ${params.row.brand} ${params.row.model}?`)) {
                         mutate(params.row._links.car.href);
                     }}
-                }>Delete</Button>
+                }><GridDeleteIcon fontSize="small"/></IconButton></Tooltip>
+                
             )
         }
     ]
@@ -87,6 +88,7 @@ function CarList() {
             autoHideDuration={2000}
             onClose={() => setOpen(false)}
             message="Car Deleted"/>
+            
             </>
             
             )
