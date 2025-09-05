@@ -4,12 +4,15 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { deleteCar, getCars } from "../api/CarAPI";
 import { DataGrid, GridCellParams, GridColDef, GridDeleteIcon } from "@mui/x-data-grid";
 import { useState } from "react";
-import { Button, IconButton, Snackbar, Tooltip } from "@mui/material";
+import { Button, IconButton, Snackbar, Stack, Tooltip } from "@mui/material";
 import AddCar from "./AddCar";
 import EditCar from "./EditCar";
 
+type CarListProps = {
+    logOut?: () => void;
+}
 
-function CarList() {
+function CarList({ logOut }: CarListProps) {
 
     const [open, setOpen] = useState(false);
 
@@ -75,7 +78,12 @@ function CarList() {
     else {
         return(
             <>
-            <AddCar/>
+            <Stack direction="row" alignItems="center"
+            justifyContent="space-between">
+                <AddCar/>
+                <Button onClick={logOut}>Log Out</Button>
+            </Stack>
+            
             <DataGrid
                 rows={data}
                 columns={columns}
